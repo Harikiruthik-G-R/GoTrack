@@ -1,0 +1,457 @@
+/* ---------- Global Styles ---------- */
+body {
+    margin: 0;
+    font-family: Poppins, Arial, sans-serif;
+    background: #f9f9f9;
+}
+
+.hidden {
+    display: none;
+}
+
+img {
+    max-width: 100%;
+    border-radius: 20px;
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+    height: 100vh;
+    width: 260px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: #ff7700; /* GoTrack Orange */
+    color: white;
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.sidebar h3 img {
+    width: 150px;
+    margin-bottom: 30px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+.sidebar ul li {
+    padding: 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: 0.3s;
+    color: #f5f5f5;
+}
+
+.sidebar ul li a{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: 0.3s;
+    color: #f5f5f5;
+}
+
+.sidebar ul li:hover {
+    background: #FFC107;
+    color: #ff7700;
+    border-radius: 10px;
+}
+
+.sidebar ul li i {
+    font-size: 20px;
+}
+
+/* ---------- Navbar ---------- */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 260px;
+    right: 0;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+}
+
+.navbar .username {
+    color: #ff7700;
+    font-weight: bold;
+}
+
+.navbar button {
+    background: #ff7700;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.navbar button:hover {
+    background: #ff5500;
+}
+
+/* ---------- Main Content ---------- */
+.main-content {
+    margin-left: 260px;
+    padding: 20px;
+    min-height: 100vh;
+    transition: margin-left 0.3s ease;
+}
+
+
+
+/* ---------- Footer ---------- */
+.footer-container {
+    display: flex;
+    margin-left: 250px;
+    padding: 20px;
+    background: #fefefe; /* Footer Orange */
+    color: rgb(2, 2, 2);
+}
+
+.footer-section h3 {
+    margin-bottom: 10px;
+}
+
+.footer-section{
+    margin-left: 90px;
+}
+.footer-section a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    margin: 5px 0;
+    transition: 0.3s;
+    
+}
+
+.footer-section a:hover {
+    text-decoration: underline;
+    color: #ffffff; /* Gold Hover */
+}
+
+/* ---------- Auth Page ---------- */
+.auth-container {
+    max-width: 400px;
+    margin: 70px auto;
+    padding: 30px;
+    background: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 25px;
+    text-align: center;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+.auth-container h2 {
+    font-size: 32px;
+    color: #1d3557;
+    margin-bottom: 30px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+    color: #333333;
+}
+
+.form-control {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #ced4da;
+    border-radius: 12px;
+    transition: 0.3s;
+}
+
+.form-control:focus {
+    border: 1px solid #ff7700;
+    box-shadow: 0 0 12px rgba(255, 119, 0, 0.5);
+    outline: none;
+}
+
+button[type='submit'] {
+    background: #ff7700;
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button[type='submit']:hover {
+    background: #ff5500;
+}
+
+button[disabled] {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.signup-link {
+    color: #ff7700;
+    cursor: pointer;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.signup-link:hover {
+    color: #ff5500;
+}
+
+/* ---------- Loading Animation ---------- */
+.loading {
+    text-align: center;
+    padding: 20px;
+}
+
+.loading img {
+    width: 80px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* ---------- Success Message ---------- */
+.success-message {
+    padding: 20px;
+    background: #28a745;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    margin: 20px auto;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+    font-size: 20px;
+}
+
+/* ---------- Fade In Animation ---------- */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+/* General Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+/* Stats Section */
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 40px 0;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-width: 250px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.stat-icon {
+    font-size: 2rem;
+    padding: 15px;
+    border-radius: 50%;
+    color: white;
+}
+
+.stat-orange {
+    background-color: #ff9800;
+}
+
+.stat-blue {
+    background-color: #007bff;
+}
+
+.stat-text h3 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: #333;
+}
+
+.stat-text p {
+    margin: 5px 0 0;
+    color: #666;
+    font-size: 1rem;
+}
+
+/* Promo Section */
+.promo-section {
+    text-align: center;
+    padding: 40px 20px;
+    background: #f5f5f5; /* Light grey to blend with the design */
+}
+
+/* Coupon Wrapper */
+.promo-cards {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.promo-card {
+    position: relative;
+    padding: 20px;
+    min-width: 300px;
+    border-radius: 12px;
+    text-align: center;
+    color: #333;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    overflow: hidden;
+}
+
+/* Coupon Background Colors */
+.yellow-promo {
+    background: #FFC107;
+}
+
+.pink-promo {
+    background: #F48FB1;
+}
+
+/* Diagonal Stripes Border Effect */
+.promo-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 12px;
+    background: repeating-linear-gradient(
+        -45deg,
+        white,
+        white 5px,
+        rgba(0, 0, 0, 0.1) 5px,
+        rgba(0, 0, 0, 0.1) 10px
+    );
+    border-radius: 12px 12px 0 0;
+}
+
+.promo-card::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 12px;
+    background: repeating-linear-gradient(
+        -45deg,
+        white,
+        white 5px,
+        rgba(0, 0, 0, 0.1) 5px,
+        rgba(0, 0, 0, 0.1) 10px
+    );
+    border-radius: 0 0 12px 12px;
+}
+
+/* Coupon Label */
+.promo-label {
+    background: rgba(0, 0, 0, 0.2);
+    color: black;
+    font-size: 0.9rem;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+/* Promo Text */
+.promo-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.promo-text {
+    font-size: 1.2rem;
+}
+
+/* Small text */
+small {
+    font-size: 0.9rem;
+    color: #444;
+}
+
+/* Offers Button */
+.see-offers-btn {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.see-offers-btn:hover {
+    background: #388E3C;
+    transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .promo-cards {
+        flex-direction: column;
+        align-items: center;
+    }
+}
