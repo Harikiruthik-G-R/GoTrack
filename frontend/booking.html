@@ -99,7 +99,7 @@
             cursor: pointer;
             font-size: 0.8em;
         }
-
+        
         .seat.available {
             background-color: white;
         }
@@ -256,157 +256,102 @@
     </div>
 
     <script>
-        // Function to get URL parameters
-        function getUrlParams() {
-            const queryString = window.location.search;
-            const urlParams = new URLSearchParams(queryString);
-            return {
-                id: urlParams.get('id'),
-                from: urlParams.get('from'),
-                to: urlParams.get('to')
-            };
+            // Function to get URL parameters (route ID)
+function getUrlParams() {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    return {
+        id: urlParams.get('id'), // Route ID
+        from: urlParams.get('from'),
+        to: urlParams.get('to')
+    };
+}
+
+// Get route ID from URL
+const params = getUrlParams();
+const routeId = params.id;
+
+// Retrieve seat data for the current route from localStorage
+let allBookings = JSON.parse(localStorage.getItem('seatBookings')) || {}; // Store all routes
+let bookedSeats = allBookings[routeId] || [];  // Get booked seats for this route
+
+const busSeatsContainer = document.getElementById('busSeats');
+const totalSeats = 24;
+let selectedSeats = []; // Store seats selected by the user
+
+// Generate seats dynamically
+function generateSeats() {
+    for (let i = 1; i <= totalSeats; i++) {
+        const seat = document.createElement('div');
+        seat.classList.add('seat');
+        seat.textContent = i; 
+
+        if (bookedSeats.includes(i)) {
+            seat.classList.add('booked');
+        } else {
+            seat.classList.add('available');
         }
 
-        // Function to load route data
-        function loadRouteData() {
-            const params = getUrlParams();
+        seat.addEventListener('click', () => toggleSeat(i, seat));
+        busSeatsContainer.appendChild(seat);
+    }
+}
 
-            // Set the page title with route information
-            document.title = `Booking: ${params.from} to ${params.to}`;
+// Toggle seat selection
+function toggleSeat(seatNumber, seatElement) {
+    if (bookedSeats.includes(seatNumber)) {
+        alert("This seat is already booked!");
+        return;
+    }
 
-            // Set the heading with route ID and locations
-            document.getElementById('bookingTitle').textContent =
-                `Booking for Route #${params.id}: ${params.from} to ${params.to}`;
+    if (selectedSeats.includes(seatNumber)) {
+        selectedSeats = selectedSeats.filter(seat => seat !== seatNumber);
+        seatElement.classList.remove('selected');
+        seatElement.classList.add('available');
+    } else {
+        selectedSeats.push(seatNumber);
+        seatElement.classList.remove('available');
+        seatElement.classList.add('selected');
+    }
+}
 
-            // Fill in the route information
-            document.getElementById('routeId').textContent = params.id;
-            document.getElementById('fromLocation').textContent = params.from;
-            document.getElementById('toLocation').textContent = params.to;
-        }
+// Confirm booking and save to localStorage
+function confirmBooking() {
+    if (selectedSeats.length === 0) {
+        alert("Please select at least one seat.");
+        return;
+    }
 
-        // Function to go back to search page
-        function goBack() {
-            window.location.href = 'index.html';
-        }
+    bookedSeats = [...bookedSeats, ...selectedSeats];
 
+    // Update localStorage with the new bookings
+    allBookings[routeId] = bookedSeats;
+    localStorage.setItem('seatBookings', JSON.stringify(allBookings));
 
-        //Bus Seat Selection Logic
-        const busSeatsContainer = document.getElementById('busSeats');
-        let selectedSeats = JSON.parse(localStorage.getItem('selectedSeats')) || [];
-        let bookedSeats = JSON.parse(localStorage.getItem('bookedSeats')) || [2, 3]; //Example booked seats
-        let occupiedSeats = JSON.parse(localStorage.getItem('occupiedSeats')) || [15, 16, 21, 22]; //Example occupied seats
-        const totalSeats = 24; // Total number of seats in the bus
+    alert(`Booking confirmed for seats: ${selectedSeats.join(', ')}`);
+    
+    // Update UI
+    selectedSeats.forEach(seatNumber => {
+        const seatElement = document.querySelector(`#busSeats div:nth-child(${seatNumber})`);
+        seatElement.classList.remove('selected');
+        seatElement.classList.add('booked');
+    });
 
-        function generateSeats() {
-            for (let i = 1; i <= totalSeats; i++) {
-                const seat = document.createElement('div');
-                seat.classList.add('seat');
-                seat.textContent = i; // Seat Number
+    // Clear selected seats array
+    selectedSeats = [];
+}
 
-                if (occupiedSeats.includes(i)) {
-                    seat.classList.add('occupied');
-                } else if (bookedSeats.includes(i)) {
-                    seat.classList.add('booked');
-                } else if (selectedSeats.includes(i)) {
-                    seat.classList.add('selected');
-                    seat.classList.remove('available');
-                } else {
-                    seat.classList.add('available');
-                }
+// Load route data and generate seats
+function loadPage() {
+    document.getElementById('routeId').textContent = routeId;
+    document.getElementById('fromLocation').textContent = params.from;
+    document.getElementById('toLocation').textContent = params.to;
 
-                seat.addEventListener('click', () => toggleSeat(i, seat));
+    generateSeats();
+}
 
-
-                busSeatsContainer.appendChild(seat);
-            }
-        }
-
-
-       function toggleSeat(seatNumber, seatElement) {
-            const numTickets = parseInt(document.getElementById('numTickets').value);
-
-            if (occupiedSeats.includes(seatNumber) || bookedSeats.includes(seatNumber)) {
-                // Do nothing if the seat is occupied or booked
-                return;
-            }
-
-            if (selectedSeats.length < numTickets || selectedSeats.includes(seatNumber)) {
-
-                if (selectedSeats.includes(seatNumber)) {
-                    // Deselect seat
-                    selectedSeats = selectedSeats.filter(seat => seat !== seatNumber);
-                    seatElement.classList.remove('selected');
-                    seatElement.classList.add('available'); // Revert to available style
-
-                } else {
-                    // Select seat
-                    selectedSeats.push(seatNumber);
-                    seatElement.classList.remove('available'); // Remove available style
-                    seatElement.classList.add('selected');
-                }
-            } else {
-                alert(`You can only select up to ${numTickets} seats.`);
-            }
-
-            // Update local storage
-            localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
-        }
-
-        function confirmBooking() {
-            if (selectedSeats.length === 0) {
-                alert('Please select at least one seat before confirming.');
-                return;
-            }
-
-            //Here you'd handle the actual booking process
-            alert(`Booking confirmed for seats: ${selectedSeats.join(', ')}`);
-
-            // Optionally, update the UI to show these seats as booked
-            selectedSeats.forEach(seatNumber => {
-                const seatElement = document.querySelector(`#busSeats div:nth-child(${seatNumber})`);
-                seatElement.classList.remove('selected', 'available');
-                seatElement.classList.add('booked');
-                seatElement.removeEventListener('click', () => toggleSeat(seatNumber, seatElement));
-            });
-
-            // Move selected seats to booked seats
-            bookedSeats = bookedSeats.concat(selectedSeats);
-            selectedSeats = [];
-
-            // Update local storage
-            localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
-            localStorage.setItem('bookedSeats', JSON.stringify(bookedSeats));
-            updateSeatClasses();
-
-            // Clear the selected seats array
-            selectedSeats = [];
-        }
-
-         function updateSeatClasses() {
-            const seats = document.querySelectorAll('.seat');
-            seats.forEach((seat, index) => {
-                const seatNumber = index + 1;
-                seat.classList.remove('available', 'selected', 'booked', 'occupied');
-
-                if (occupiedSeats.includes(seatNumber)) {
-                    seat.classList.add('occupied');
-                    seat.removeEventListener('click', () => toggleSeat(seatNumber, seat)); // Remove click listener
-                } else if (bookedSeats.includes(seatNumber)) {
-                    seat.classList.add('booked');
-                    seat.removeEventListener('click', () => toggleSeat(seatNumber, seat)); // Remove click listener
-                } else if (selectedSeats.includes(seatNumber)) {
-                    seat.classList.add('selected');
-                } else {
-                    seat.classList.add('available');
-                }
-            });
-        }
-
-        // Load route data when page loads
-        window.onload = () => {
-            loadRouteData();
-            generateSeats();
-        };
+// Run when page loads
+window.onload = loadPage;
     </script>
 </body>
 </html>
